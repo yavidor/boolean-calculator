@@ -2,59 +2,68 @@ package main
 
 import "testing"
 
-func Test_xor(t *testing.T) {
-	tests := []struct {
-		name string // description of this test case
-		// Named input parameters for target function.
-		A    bool
-		B    bool
-		want bool
-	}{
-		struct {
-			name string
-			A    bool
-			B    bool
-			want bool
-		}{
+type testCase struct {
+	name string
+	A    bool
+	B    bool
+	want bool
+}
+
+func generateTruthTable(TT, TF, FT, FF bool) []testCase {
+	return []testCase{
+		{
 			name: "TT",
 			A:    true,
 			B:    true,
-			want: false,
+			want: TT,
 		},
-		struct {
-			name string
-			A    bool
-			B    bool
-			want bool
-		}{
+		{
 			name: "TF",
 			A:    true,
 			B:    false,
-			want: true,
+			want: TF,
 		},
-		struct {
-			name string
-			A    bool
-			B    bool
-			want bool
-		}{
+		{
 			name: "FT",
 			A:    false,
 			B:    true,
-			want: true,
+			want: FT,
 		},
-		struct {
-			name string
-			A    bool
-			B    bool
-			want bool
-		}{
+		{
 			name: "FF",
 			A:    false,
 			B:    false,
-			want: false,
+			want: FF,
 		},
 	}
+}
+
+func Test_and(t *testing.T) {
+	tests := generateTruthTable(true, false, false, false)
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := and(tt.A, tt.B)
+			if got != tt.want {
+				t.Errorf("and() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_or(t *testing.T) {
+	tests := generateTruthTable(true, true, true, false)
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := or(tt.A, tt.B)
+			if got != tt.want {
+				t.Errorf("or() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_xor(t *testing.T) {
+	tests := generateTruthTable(false, true, true, false)
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got := xor(tt.A, tt.B)
