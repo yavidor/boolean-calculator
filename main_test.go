@@ -73,3 +73,39 @@ func Test_xor(t *testing.T) {
 		})
 	}
 }
+
+func Test_nand(t *testing.T) {
+	tests := generateTruthTable(false, true, true, true)
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := nand(tt.A, tt.B)
+			if got != tt.want {
+				t.Errorf("nand() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_nor(t *testing.T) {
+	tests := generateTruthTable(false, false, false, true)
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := nor(tt.A, tt.B)
+			if got != tt.want {
+				t.Errorf("nor() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_xnor(t *testing.T) {
+	tests := generateTruthTable(true, false, false, true)
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := xnor(tt.A, tt.B)
+			if got != tt.want {
+				t.Errorf("xnor(%v, %v) = %v, want %v", tt.A, tt.B, got, tt.want)
+			}
+		})
+	}
+}
